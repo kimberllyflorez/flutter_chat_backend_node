@@ -8,7 +8,7 @@ const login = async (req, res = response) => {
     try {
 
         const userDB = await User.findOne({ email });
-      
+
 
         if (!userDB) {
             return res.sendStatus(400).json(
@@ -19,24 +19,25 @@ const login = async (req, res = response) => {
         }
         const validatePassword = bcrypt.compareSync(password, userDB.password);
 
-        const token = await generateJWT(userDB.id);
+
         if (!validatePassword) {
-            return res.sendStatus(400).json(
+            return res.status(400).json(
                 {
                     ok: false,
                     msg: "login: password is wrong",
                 });
         }
-        else {
-            res.json(
+        const token = await generateJWT(userDB.id);
+        
+            return res.json(
                 {
-                    ok: false,
+                    ok: true ,
                     msg: "login: success",
                     user: userDB,
                     token: token
                 });
 
-        }
+        
     } catch (error) {
         return res.status(500).json({
             msg: 'user not found'

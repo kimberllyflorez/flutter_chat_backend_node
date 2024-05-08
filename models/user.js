@@ -14,6 +14,14 @@ const UserSchema = Schema({
         type: Boolean,
         default: false,
     },
+    name:{
+        type: String
+        
+    },
+    uid:{
+        type: String
+        
+    }
 });
 UserSchema.method("toJson", function(){
     const {__v, _id, password, ...object} = this.toObject();
